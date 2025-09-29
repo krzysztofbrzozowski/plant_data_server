@@ -1,0 +1,114 @@
+/dts-v1/;
+#include <nordic/nrf52833_qiaa.dtsi>
+#include "bbc_micro_based_dev_board-pinctrl.dtsi"
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+	model = "none";
+	compatible = "none,bbc-micro-based-dev-board";
+
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,code-partition = &slot0_partition;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		row1: row_1 {
+			gpios = <&gpio0 21 GPIO_ACTIVE_HIGH>;
+			label = "LED ROW 1";
+		};
+		row2: row_2 {
+			gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>;
+			label = "LED ROW 2";
+		};
+		row3: row_3 {
+			gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
+			label = "LED ROW 3";
+		};
+		row4: row_4 {
+			gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			label = "LED ROW 4";
+		};
+		row5: row_5 {
+			gpios = <&gpio0 19 GPIO_ACTIVE_HIGH>;
+			label = "LED ROW 5";
+		};
+
+		col1: col_1 {
+			gpios = <&gpio0 28 GPIO_ACTIVE_LOW>;
+			label = "LED COL 1";
+		};
+		col2: col_2 {
+			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+			label = "LED COL 2";
+		};
+		col3: col_3 {
+			gpios = <&gpio0 31 GPIO_ACTIVE_LOW>;
+			label = "LED COL 3";
+		};
+		col4: col_4 {
+			gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
+			label = "LED COL 4";
+		};
+		col5: col_5 {
+			gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
+			label = "LED COL 5";
+		};
+	};
+
+	buttons {
+		compatible = "gpio-keys";
+		buttonA: button_A {
+			gpios = <&gpio0 14 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			label = "Push button switch A";
+			zephyr,code = <INPUT_KEY_0>;
+		};
+		buttonB: button_B {
+			gpios = <&gpio0 23 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			label = "Push button switch B";
+			zephyr,code = <INPUT_KEY_1>;
+		};
+	};
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		boot_partition: partition@0 {
+			label = "mcuboot";
+			reg = <0x00000000 DT_SIZE_K(48)>;
+		};
+
+		slot0_partition: partition@c000 {
+			label = "image-0";
+			reg = <0x0000c000 DT_SIZE_K(220)>;
+		};
+
+		slot1_partition: partition@43000 {
+			label = "image-1";
+			reg = <0x00043000 DT_SIZE_K(220)>;
+		};
+
+		storage_partition: partition@7a000 {
+			label = "storage";
+			reg = <0x0007a000 DT_SIZE_K(24)>;
+		};
+	};
+};
+
+&gpiote {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};

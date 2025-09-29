@@ -1,0 +1,10 @@
+identifier: bbc_micro_based_dev_board/nrf52833
+name: none
+vendor: none
+type: mcu
+arch: arm
+ram: 128
+flash: 512
+toolchain:
+  - zephyr
+supported: []

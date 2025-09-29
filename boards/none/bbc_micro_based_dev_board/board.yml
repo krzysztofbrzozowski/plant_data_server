@@ -1,0 +1,5 @@
+board:
+  name: bbc_micro_based_dev_board
+  vendor: none
+  socs:
+    - name: nrf52833
